@@ -60,9 +60,6 @@ subprojects { project ->
         systemProperty "geb.env", driver
         //should be passed with a -P parameter
         systemProperty "seleniumServerUrl", project.hasProperty('seleniumServerUrl') ? seleniumServerUrl : 'http://127.0.0.1:5555/wd/hub'
-        systemProperty "webdriver.chrome.driver", '/Users/eli/Downloads/chromedriver'
-
-
 
     }
 

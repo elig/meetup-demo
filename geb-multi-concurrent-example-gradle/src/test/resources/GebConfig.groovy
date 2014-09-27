@@ -37,15 +37,28 @@ if (browserStackBrowser) {
 environments {
 
     firefox {
-        driver = { new FirefoxDriver() }
+        driver = {
+            DesiredCapabilities capability = DesiredCapabilities.firefox()
+            capability.setCapability("jenkins.label", "firefox")
+            new FirefoxDriver(capability)
+        }
     }
 
     chrome {
-        driver = { new ChromeDriver() }
+        def location = System.getenv('webdriver.chrome.driver')
+        def chromeDriver = location != null ? location : new File("src/test/resources/chromedriver").absolutePath
+        System.setProperty("webdriver.chrome.driver", chromeDriver)
+
+        driver = {
+            DesiredCapabilities capability = DesiredCapabilities.chrome()
+            capability.setCapability("jenkins.label", "chrome")
+            new ChromeDriver(capability)
+        }
+
     }
 
     chromeGrid {
-        driver= {
+        driver = {
             DesiredCapabilities capability = DesiredCapabilities.chrome()
 
             capability.setCapability("jenkins.label", "chrome")
@@ -55,7 +68,7 @@ environments {
         }
     }
     firefoxGrid {
-        driver= {
+        driver = {
             DesiredCapabilities capability = DesiredCapabilities.firefox()
             capability.setCapability("jenkins.label", "firefox")
             new RemoteWebDriver(new URL(System.getProperty('seleniumServerUrl')), capability)
