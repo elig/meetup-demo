@@ -1,0 +1,81 @@
+apply plugin: "idea"
+apply plugin: "groovy"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.gebish:geb-gradle:0.9.3'
+    }
+}
+
+
+dependencies {
+    def gebVersion = "0.9.3"
+    def seleniumVersion = "2.41.0"
+
+    // If using Spock, need to depend on geb-spock
+    testCompile "org.gebish:geb-spock:$gebVersion"
+    compile "org.spockframework:spock-core:0.7-groovy-2.0"
+    compile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    compile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+}
+
+
+repositories {
+    jcenter()
+}
+
+test {
+    onlyIf { false }
+}
+
+subprojects { project ->
+    buildDir = file("$rootProject.buildDir/$name")
+
+    def driver = project.name
+
+    task test(type: Test) { driverTestTask ->
+        rootProject.test.dependsOn driverTestTask
+        finalizedBy "decorateResults"
+
+
+        workingDir = rootProject.test.workingDir
+        testSrcDirs = rootProject.test.testSrcDirs
+        testClassesDir = rootProject.test.testClassesDir
+        classpath = rootProject.test.classpath
+
+        reports {
+            html.destination = rootProject.reporting.file("$project.name/html")
+            junitXml {
+                destination = file("$rootProject.buildDir/test-results/$project.name")
+                outputPerTestCase = true
+            }
+        }
+        binResultsDir = rootProject.file("$rootProject.buildDir/test-results-bin/$project.name")
+
+        systemProperty "geb.build.reportsDir", reporting.file("$project.buildDir/test-results/$name/geb")
+        systemProperty "seleniumServerUrl", project.hasProperty("seleniumServerUrl") ? seleniumServerUrl : null
+        systemProperty "geb.env", driver
+        //should be passed with a -P parameter
+        systemProperty "seleniumServerUrl", project.hasProperty('seleniumServerUrl') ? seleniumServerUrl : 'http://127.0.0.1:5555/wd/hub'
+        systemProperty "webdriver.chrome.driver", '/Users/eli/Downloads/chromedriver'
+
+
+
+    }
+
+    task decorateResults(type: Copy) {
+        def displaySuffix = " ($project.name)"
+        def xmlResultsDir = test.reports.junitXml.destination
+        def decoratedResultsDir = project.file("$xmlResultsDir-decorated")
+
+        into decoratedResultsDir
+        from xmlResultsDir
+        includeEmptyDirs = false
+
+        filter { it.replaceAll("(testsuite|testcase) name=\"(.+?)\"", "\$1 name=\"\$2$displaySuffix\"") }
+    }
+
+}
