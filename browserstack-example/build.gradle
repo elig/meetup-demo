@@ -1,0 +1,86 @@
+apply plugin: "idea"
+
+buildscript { //2
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.gebish:geb-gradle:0.9.3'
+    }
+}
+
+allprojects {
+    apply plugin: "groovy"
+}
+
+dependencies {
+    def gebVersion = "0.9.3"
+    def seleniumVersion = "2.42.0"
+
+    // If using Spock, need to depend on geb-spock
+    testCompile "org.gebish:geb-spock:$gebVersion"
+    compile "org.spockframework:spock-core:0.7-groovy-2.0"
+    compile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    compile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+
+}
+
+
+repositories {
+    jcenter()
+}
+
+//don't disable test task on the root, you'll use it to run the tests locally
+test {
+    systemProperty "geb.build.reportsDir", reporting.file("$project.buildDir/test-results/$name/geb")
+    systemProperty "geb.env", 'firefox' //select an env/browser for local testing
+}
+
+subprojects { project ->
+    apply plugin: "geb-browserstack"
+
+    browserStack {
+       application "http://google.com"
+        task {
+            testClassesDir = rootProject.test.testClassesDir
+            testSrcDirs = rootProject.test.testSrcDirs
+            classpath = rootProject.test.classpath
+
+            systemProperty "geb.build.reportsDir", reporting.file("$project.buildDir/test-results/$name/geb")
+            maxParallelForks 2
+        }
+        account {
+            username = System.getenv("GEB_BROWSERSTACK_USERNAME")
+            accessKey = System.getenv("GEB_BROWSERSTACK_AUTHKEY")
+        }
+        tunnelJar = new File(project.buildDir, "tunnel.jar")
+    }
+}
+
+project('firefox') {
+    browserStack {
+        browsers {
+            firefox_windows
+        }
+        account {
+            localId = 'firefox'
+        }
+        task {
+            systemProperty 'browserstack.localIdentifier', 'firefox'
+        }
+    }
+}
+
+project('chrome') {
+    browserStack {
+        browsers {
+            chrome_mac
+        }
+        account {
+            localId = 'chrome'
+        }
+        task {
+            systemProperty 'browserstack.localIdentifier', 'chrome'
+        }
+    }
+}
