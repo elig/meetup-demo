@@ -53,7 +53,7 @@ subprojects { project ->
             username = System.getenv("GEB_BROWSERSTACK_USERNAME")
             accessKey = System.getenv("GEB_BROWSERSTACK_AUTHKEY")
         }
-        tunnelJar = new File(project.buildDir, "tunnel.jar")
+        //tunnelJar = new File(project.buildDir, "tunnel.jar")
     }
 }
 
