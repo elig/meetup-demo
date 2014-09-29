@@ -17,16 +17,16 @@ class GoogleSpec extends GebReportingSpec {
         at GoogleResultsPage
 
         and:
-        firstResultLink.text() == "Wikipedia"
-
+//        firstResultLink.text() == "Wikipedia"
+        firstResultLink.text().contains('Wikipedia')
         when:
         firstResultLink.click()
 
         then:
         waitFor { at WikipediaPage }
     }
-    
-    def "Hapoel is on the map"(){
+
+    def "Hapoel is on the map"() {
         when:
         to GoogleHomePage
 

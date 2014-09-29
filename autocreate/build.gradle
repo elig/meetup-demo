@@ -219,7 +219,7 @@ jenkins {
                             project / builders << 'hudson.plugins.gradle.Gradle' {
                                 description ''
                                 switches ''
-                                tasks 'clean cG:test fG:test'
+                                tasks 'clean cG:test fG:test --continue'
                                 rootBuildScriptDir 'geb-multi-concurrent-example-gradle/'
                                 buildFile ''
                                 useWrapper 'true'
