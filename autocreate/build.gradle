@@ -23,8 +23,6 @@ dependencies{
 }
 //copy the downloaded plugins to $JENKINS_HOME/plugins
 task copyPlugins(type: Copy) {
-    println "copying plugins"
-    configurations.jenplugins.dependencies.each {f-> println f.name}
     from configurations.jenplugins.files
     def location= project.hasProperty('pluginsDir') ? pluginsDir : "$project.buildDir/lib"
     into location
@@ -105,9 +103,7 @@ jenkins {
 
                             }
                         }
-                        triggers {
-                            scm 'H/5 * * * *'
-                        }
+
 
                         steps {
                             configure { project ->
@@ -162,9 +158,7 @@ jenkins {
                         }
                     }
 
-                    triggers {
-                        scm 'H/5 * * * *'
-                    }
+
 
                     steps {
                         configure { project ->
@@ -217,9 +211,7 @@ jenkins {
 
                         }
                     }
-                    triggers {
-                        scm 'H/5 * * * *'
-                    }
+
 
                     steps {
                         configure { project ->
