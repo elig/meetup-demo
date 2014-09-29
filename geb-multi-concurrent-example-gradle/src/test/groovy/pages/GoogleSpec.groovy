@@ -25,5 +25,19 @@ class GoogleSpec extends GebReportingSpec {
         then:
         waitFor { at WikipediaPage }
     }
+    
+    def "Hapoel is on the map"(){
+        when:
+        to GoogleHomePage
+
+        and:
+        q = "hapoel tel aviv"
+
+        then:
+        at GoogleResultsPage
+
+        and:
+        results != null
+    }
 
 }
