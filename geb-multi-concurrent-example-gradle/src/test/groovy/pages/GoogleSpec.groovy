@@ -18,7 +18,7 @@ class GoogleSpec extends GebReportingSpec {
 
         and:
 //        firstResultLink.text() == "Wikipedia"
-        firstResultLink.text().contains('Wikipedia')
+        firstResultLink.text().contains('Wikipedia -fail')
         when:
         firstResultLink.click()
 
