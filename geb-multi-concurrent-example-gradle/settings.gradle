@@ -1,6 +1,0 @@
-
-include 'chrome'
-include 'firefox'
-include 'chromeGrid'
-include 'firefoxGrid'
-rootProject.name = 'demo'

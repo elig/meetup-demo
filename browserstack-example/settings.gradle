@@ -1,4 +1,0 @@
-
-include 'chrome'
-include 'firefox'
-rootProject.name = 'please-run-in-parallel'
