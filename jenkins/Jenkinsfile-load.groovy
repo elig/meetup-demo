@@ -109,7 +109,7 @@ pipeline {
             <style>html,body{height: 90%;}body{display: -ms-flexbox; display: -webkit-box; display: flex; -ms-flex-align: center; -ms-flex-pack: center; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; padding-top: 150px; padding-bottom: 140px; background-color: #f5f5f5;}</style>
             </head>
             <body class="text-center"><form class="form-signin">
-            <h1 class="h3 mb-3 font-weight-normal">Artifactory: tests results</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Blazemeter: tests results</h1>
         '''
                     restv1ButtonCssClass = RESTV1_RESULT == "SUCCESS" ? 'btn-success' : 'btn-danger'
                     restv2ButtonCssClass = RESTV2_RESULT == "SUCCESS" ? 'btn-success' : 'btn-danger'
