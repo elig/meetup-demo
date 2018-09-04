@@ -65,9 +65,7 @@ pipeline {
         stage('Exec Maven Build') {
             steps {
                 script {
-//                    rtMaven.run pom: rootPom, goals: 'clean install -T 3 -Dmaven.repo.local=${WORKSPACE}/.repo', buildInfo: buildInfo
-                    rtMaven.run pom: rootPom, goals: 'clean install -T 3 --batch-mode', buildInfo: buildInfo
-
+                    rtMaven.run pom: rootPom, goals: 'clean install -T 3 -Dmaven.repo.local=${WORKSPACE}/.repo', buildInfo: buildInfo
                 }
             }
             post {
