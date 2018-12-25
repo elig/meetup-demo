@@ -11,5 +11,5 @@ abstract class GlobalSettings implements Serializable{
     public static final String RELEASE_REPO = 'libs-release-local'
     public static final String DISTRIBUTION_REPO = 'rpm-local'
     public static final List TESTS_LIST = ['fast-sanity','installer-test','rest-test','ui-test','load-test']
-    public static final String ARTIFACTORY_SERVICE_ID = 'jfrt@01cntpgqkmtb5w161qattv1k60'
+    public static final String ARTIFACTORY_SERVICE_ID = 'jfrt@01czjqtg7pmty506443qhy19nb'
 }
